@@ -14,14 +14,5 @@ export default async function Home() {
     },
   });
 
-  return (
-    <div>
-      <Button type="primary">{user?.name}</Button>
-      <Button color="primary" variant="solid">
-        click
-      </Button>
-      <Button type="link">Profile</Button>
-      hello world
-    </div>
-  );
+  return <div>Home</div>;
 }
