@@ -1,7 +1,7 @@
 # Multi-stage Dockerfile for a Next.js app using pnpm and Prisma
 # Stage base (initial)
 FROM node:20-alpine AS base
-MAINTAINER Superkid <honguyentailoi05@gmail.com>
+LABEL maintainer="Superkid <honguyentailoi05@gmail.com>"
 WORKDIR /usr/src/app
 ENV NEXT_TELEMETRY_DISABLED=1
 
@@ -20,6 +20,7 @@ COPY . .
 # Ensure pnpm is available in this stage and build the Next.js app
 RUN corepack enable && corepack prepare pnpm@latest --activate
 # Skip DB calls at build-time (page guard checks this env var)
+# Set this so pages that query the DB won't run during Docker image build.
 ENV SKIP_PRERENDER=1
 RUN pnpm build
 # Generate Prisma client if schema exists; don't fail the build if Prisma isn't configured yet
