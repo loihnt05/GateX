@@ -1,25 +1,27 @@
 import { prisma } from "@/lib/prisma";
+import { Button } from "antd";
 
-// Ensure this page is rendered dynamically at request time so DB calls
-// run when the container is started and `DATABASE_URL` is available.
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  // When building the image we skip DB calls to avoid requiring a live DB
-  // Set SKIP_PRERENDER=1 in the Dockerfile builder stage to use this path
-  if (process.env.SKIP_PRERENDER === '1') {
-    return (
-      <button>Guest</button>
-    )
+  if (process.env.SKIP_PRERENDER === "1") {
+    return <Button>Guest</Button>;
   }
 
   const user = await prisma.user.findFirst({
     where: {
-      email: 'test@test.com'
-    }
-  })
+      email: "test@test.com",
+    },
+  });
 
   return (
-    <button>{user?.name}</button>
-  )
+    <div>
+      <Button type="primary">{user?.name}</Button>
+      <Button color="primary" variant="solid">
+        click
+      </Button>
+      <Button type="link">Profile</Button>
+      hello world
+    </div>
+  );
 }
