@@ -16,6 +16,8 @@ RUN pnpm install --frozen-lockfile
 FROM base AS builder
 # Copy application code node modules from deps to container in builder
 COPY --from=deps /usr/src/app/node_modules ./node_modules
+COPY --from=deps /usr/src/app/package.json ./package.json
+COPY --from=deps /usr/src/app/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY . .
 # Ensure pnpm is available in this stage and build the Next.js app
 RUN corepack enable && corepack prepare pnpm@latest --activate
