@@ -11,17 +11,5 @@ services:
     ports:
       - '5432:5432'
 
-  app:
-    build: .
-    restart: unless-stopped
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: "postgres://postgres:postgres@db:5432/gatex"
-      NODE_ENV: production
-    ports:
-      - '3000:3000'
-    command: pnpm start
-
 volumes:
   db-data:

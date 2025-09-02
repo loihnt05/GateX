@@ -1,17 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { ConfigProvider } from "antd";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,11 +14,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" style={{ width: "100%", height: "100%" }}>
+    <html lang="en">
       <body style={{ width: "100%", height: "100%" }}
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`antialiased`}
       >
-       <AntdRegistry>{children}</AntdRegistry>
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: "#0070f3",
+              colorBgContainer: "#f0f2f5",
+              colorBorder: "#d9d9d9",
+              borderRadius: 4,
+            },
+          }}
+        >
+          <AntdRegistry>{children}</AntdRegistry>
+        </ConfigProvider>
       </body>
     </html>
   );

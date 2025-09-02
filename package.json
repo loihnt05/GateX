@@ -16,7 +16,7 @@
     "@ant-design/nextjs-registry": "^1.1.0",
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@prisma/client": "^6.15.0",
-    "antd": "^5.27.1",
+    "antd": "^5.27.2",
     "autoprefixer": "^10.4.21",
     "next": "15.5.2",
     "postcss": "^8.5.6",
@@ -24,17 +24,17 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
+    "@eslint/eslintrc": "^3.3.1",
+    "@tailwindcss/postcss": "^4.1.12",
+    "@types/node": "^20.19.11",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "eslint": "^9.34.0",
     "eslint-config-next": "15.5.2",
     "prisma": "^6.15.0",
-    "tailwindcss": "^4",
+    "tailwindcss": "^4.1.12",
     "ts-node": "^10.9.2",
-    "typescript": "^5"
+    "typescript": "^5.9.2"
   },
   "packageManager": "pnpm@10.15.0+sha512.486ebc259d3e999a4e8691ce03b5cac4a71cbeca39372a9b762cb500cfdf0873e2cb16abe3d951b1ee2cf012503f027b98b6584e4df22524e0c7450d9ec7aa7b"
 }
