@@ -1,42 +1,51 @@
-# Multi-stage Dockerfile for a Next.js app using pnpm and Prisma
-# Stage base (initial)
+# Multi-stage Dockerfile for Next.js + pnpm + Prisma
+
+# Base image
 FROM node:20-alpine AS base
 LABEL maintainer="Superkid <honguyentailoi05@gmail.com>"
 WORKDIR /usr/src/app
 ENV NEXT_TELEMETRY_DISABLED=1
+RUN corepack enable
 
-# Stage dependencies to copy and install deps the best performance
+# -------------------------------
+# Stage 1: Install dependencies
 FROM base AS deps
-# Activate corepack to make pnpm available (corepack to manage node package)
-RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY package.json pnpm-lock.yaml* ./
-RUN pnpm install --frozen-lockfile
+RUN corepack prepare pnpm@latest --activate \
+  && pnpm install --frozen-lockfile
 
-# Stage builder
+# -------------------------------
+# Stage 2: Build app
 FROM base AS builder
-# Copy application code node modules from deps to container in builder
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=deps /usr/src/app/package.json ./package.json
 COPY --from=deps /usr/src/app/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY . .
-# Ensure pnpm is available in this stage and build the Next.js app
-RUN corepack enable && corepack prepare pnpm@latest --activate
-# Skip DB calls at build-time (page guard checks this env var)
-# Set this so pages that query the DB won't run during Docker image build.
-ENV SKIP_PRERENDER=1
-RUN pnpm build
-# Generate Prisma client if schema exists; don't fail the build if Prisma isn't configured yet
-RUN pnpm prisma generate || true
 
-# Stage runner (final)
+# Bỏ qua query DB khi build
+ENV SKIP_PRERENDER=1
+
+# Build Next.js + Prisma
+RUN corepack prepare pnpm@latest --activate \
+  && pnpm build \
+  && pnpm prisma generate || true
+
+# -------------------------------
+# Stage 3: Runner (final)
 FROM node:20-alpine AS runner
 WORKDIR /usr/src/app
-# Create variable environment production
 ENV NODE_ENV=production
 RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Copy only runtime files
 COPY --from=builder /usr/src/app/public ./public
 COPY --from=builder /usr/src/app/.next ./.next
-COPY --from=builder /usr/src/app/node_modules ./node_modules
 COPY --from=builder /usr/src/app/package.json ./package.json
+COPY --from=builder /usr/src/app/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=builder /usr/src/app/prisma ./prisma
+
+# Install production dependencies only
+RUN pnpm install --frozen-lockfile --prod --ignore-scripts
+
 EXPOSE 3000
 CMD ["pnpm", "start"]
