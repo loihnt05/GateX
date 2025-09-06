@@ -30,9 +30,6 @@ const useStyle = createStyles(({ prefixCls, css }) => ({
 
 const LoginBtn: React.FC = () => {
   const { styles } = useStyle();
-    const LoginForm = () => {
-        
-    }
   return (
     <ConfigProvider
       button={{

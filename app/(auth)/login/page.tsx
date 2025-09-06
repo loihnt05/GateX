@@ -270,7 +270,7 @@ const Page = () => {
   );
 };
 
-export default () => {
+export default function LoginPage() {
   return (
     <ProConfigProvider dark>
       <Page />
