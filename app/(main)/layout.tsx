@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { ConfigProvider } from "antd";
+import LayoutClient from "./layoutClient";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,9 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body style={{ width: "100%", height: "100%" }}
-        className={`antialiased`}
-      >
+      <body style={{ width: "100%", height: "100%" }} className={`antialiased`}>
         <ConfigProvider
           theme={{
             token: {
@@ -28,7 +27,9 @@ export default function RootLayout({
             },
           }}
         >
-          <AntdRegistry>{children}</AntdRegistry>
+          <AntdRegistry>
+            <LayoutClient>{children}</LayoutClient>
+          </AntdRegistry>
         </ConfigProvider>
       </body>
     </html>

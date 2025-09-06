@@ -1,13 +1,10 @@
 "use client";
 import {
-  AlipayOutlined,
   FacebookOutlined,
   GoogleOutlined,
   LockOutlined,
   MobileOutlined,
-  TaobaoOutlined,
   UserOutlined,
-  WeiboOutlined,
   YahooOutlined,
 } from "@ant-design/icons";
 import {
